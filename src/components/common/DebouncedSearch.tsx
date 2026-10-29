@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Search, X, Loader2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setQuery, setDebouncedQuery } from "@/redux/slices/searchSlice";
@@ -11,20 +11,17 @@ export default function DebouncedSearch() {
   const query = useAppSelector((state) => state.search.query);
   const [localInput, setLocalInput] = useState(query);
   const [isDebouncing, setIsDebouncing] = useState(false);
+  const [, startTransition] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
-  // Keep local input in sync if redux query is reset externally
-  useEffect(() => {
-    setLocalInput(query);
-  }, [query]);
-
   // Debounce logic (300ms)
   useEffect(() => {
-    setIsDebouncing(true);
     const handler = setTimeout(() => {
-      dispatch(setDebouncedQuery(localInput));
-      setIsDebouncing(false);
+      startTransition(() => {
+        dispatch(setDebouncedQuery(localInput));
+        setIsDebouncing(false);
+      });
     }, 300);
 
     return () => clearTimeout(handler);
@@ -38,6 +35,7 @@ export default function DebouncedSearch() {
         inputRef.current?.focus();
       } else if (e.key === "Escape" && document.activeElement === inputRef.current) {
         setLocalInput("");
+        setIsDebouncing(false);
         dispatch(setQuery(""));
         dispatch(setDebouncedQuery(""));
         inputRef.current?.blur();
@@ -47,8 +45,16 @@ export default function DebouncedSearch() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [dispatch]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setLocalInput(val);
+    setIsDebouncing(true);
+    dispatch(setQuery(val));
+  };
+
   const handleClear = () => {
     setLocalInput("");
+    setIsDebouncing(false);
     dispatch(setQuery(""));
     dispatch(setDebouncedQuery(""));
     inputRef.current?.focus();
@@ -62,10 +68,7 @@ export default function DebouncedSearch() {
           ref={inputRef}
           type="text"
           value={localInput}
-          onChange={(e) => {
-            setLocalInput(e.target.value);
-            dispatch(setQuery(e.target.value));
-          }}
+          onChange={handleChange}
           id="global-search-input"
           placeholder={t("searchPlaceholder")}
           className="w-full pl-10 pr-16 py-2 rounded-xl text-xs sm:text-sm bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all shadow-inner"

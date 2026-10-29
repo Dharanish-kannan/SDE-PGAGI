@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, User, Mail, Sparkles, LogOut, Check } from "lucide-react";
+import { X, User, Sparkles, LogOut, Check } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { login, logout, updateProfile } from "@/redux/slices/authSlice";
 import { useTranslation } from "@/i18n/useTranslation";

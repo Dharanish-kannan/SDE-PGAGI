@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Reorder, motion, AnimatePresence } from "framer-motion";
-import { Move, AlertCircle, RefreshCw, Sparkles, FilterX } from "lucide-react";
+import { Reorder, AnimatePresence } from "framer-motion";
+import { Move, AlertCircle, RefreshCw, FilterX } from "lucide-react";
 import ContentCard from "./ContentCard";
 import FeedFilters from "./FeedFilters";
 import InfiniteScrollTrigger from "./InfiniteScrollTrigger";

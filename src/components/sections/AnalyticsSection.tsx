@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BarChart3, PieChart, BookOpen, Heart, Flame, Clock, ShieldCheck, Zap } from "lucide-react";
+import { BarChart3, PieChart, BookOpen, Heart, Flame, Zap } from "lucide-react";
 import { useAppSelector } from "@/redux/hooks";
 import { useTranslation } from "@/i18n/useTranslation";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Sliders, Check, RotateCcw, Key, ShieldCheck, Layers, Eye } from "lucide-react";
+import { X, Sliders, Check, RotateCcw, Key } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   toggleCategory,

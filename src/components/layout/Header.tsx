@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Sliders, Bell, User as UserIcon, Menu } from "lucide-react";
+import { Sparkles, Sliders, User as UserIcon, Menu } from "lucide-react";
 import DebouncedSearch from "@/components/common/DebouncedSearch";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useTranslation } from "@/i18n/useTranslation";
+import { useAppSelector } from "@/redux/hooks";
 
 interface HeaderProps {
   onOpenSettings: () => void;
@@ -20,8 +19,6 @@ export default function Header({
   onToggleSidebar,
 }: HeaderProps) {
   const user = useAppSelector((state) => state.auth.user);
-  const liveQueue = useAppSelector((state) => state.content.liveQueue);
-  const { t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-30 w-full glass-panel border-b border-slate-200/80 dark:border-slate-800/80 px-4 sm:px-6 py-3">

@@ -2,14 +2,8 @@
 
 import React from "react";
 import {
-  Sparkles,
-  Flame,
   LayoutGrid,
   List,
-  Filter,
-  SlidersHorizontal,
-  Star,
-  Clock,
   ArrowUpDown,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -19,8 +13,9 @@ import {
   setSortBy,
 } from "@/redux/slices/searchSlice";
 import { setViewMode } from "@/redux/slices/preferencesSlice";
-import { ContentCategory, ContentType, ViewMode } from "@/types/content";
+import { ContentCategory, ContentType } from "@/types/content";
 import { useTranslation } from "@/i18n/useTranslation";
+import { translations } from "@/i18n/translations";
 
 const CATEGORY_TABS: { id: "all" | ContentCategory; label: string; icon: string }[] = [
   { id: "all", label: "All Topics", icon: "✨" },
@@ -32,7 +27,7 @@ const CATEGORY_TABS: { id: "all" | ContentCategory; label: string; icon: string 
   { id: "health", label: "Health", icon: "🧬" },
 ];
 
-const TYPE_TABS: { id: "all" | ContentType; labelKey: string }[] = [
+const TYPE_TABS: { id: "all" | ContentType; labelKey: keyof typeof translations.en }[] = [
   { id: "all", labelKey: "allTypes" },
   { id: "news", labelKey: "newsOnly" },
   { id: "recommendation", labelKey: "recommendationsOnly" },
@@ -66,7 +61,7 @@ export default function FeedFilters() {
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
-                {t(tab.labelKey as any)}
+                {t(tab.labelKey)}
               </button>
             );
           })}
@@ -79,7 +74,7 @@ export default function FeedFilters() {
             <ArrowUpDown className="w-3.5 h-3.5 text-indigo-500" />
             <select
               value={sortBy}
-              onChange={(e) => dispatch(setSortBy(e.target.value as any))}
+              onChange={(e) => dispatch(setSortBy(e.target.value as "latest" | "trending" | "rating" | "popular"))}
               id="sort-select"
               className="bg-transparent focus:outline-hidden cursor-pointer"
             >

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Flame, TrendingUp, Sparkles, Trophy } from "lucide-react";
+import { Flame, TrendingUp, Trophy } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import ContentCard from "@/components/feed/ContentCard";
 import { ContentCategory } from "@/types/content";

@@ -2,6 +2,18 @@ import { NextResponse } from "next/server";
 import { INITIAL_CONTENT_ITEMS, PAGINATED_ADDITIONAL_ITEMS } from "@/services/mockData";
 import { ContentCategory } from "@/types/content";
 
+interface TmdbMovieResult {
+  id: number;
+  title?: string;
+  original_title?: string;
+  overview?: string;
+  backdrop_path?: string;
+  release_date?: string;
+  vote_average?: number;
+  vote_count?: number;
+  popularity?: number;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -17,11 +29,11 @@ export async function GET(request: Request) {
         if (res.ok) {
           const data = await res.json();
           if (data.results && data.results.length > 0) {
-            const liveItems = data.results.slice(0, 6).map((movie: any) => ({
+            const liveItems = data.results.slice(0, 6).map((movie: TmdbMovieResult) => ({
               id: `tmdb-${movie.id}`,
-              type: "recommendation",
+              type: "recommendation" as const,
               category: "entertainment" as ContentCategory,
-              title: movie.title || movie.original_title,
+              title: movie.title || movie.original_title || "Untitled Motion Picture",
               description: movie.overview || "Exciting motion picture recommendation based on your preferences.",
               source: "TMDB Movies",
               sourceUrl: "https://themoviedb.org",
@@ -38,7 +50,7 @@ export async function GET(request: Request) {
               comments: Math.floor((movie.vote_count || 50) * 0.1),
               tags: ["Cinema", "TMDB", "Trending"],
               ctaText: "Watch Trailer",
-              ctaAction: "watch",
+              ctaAction: "watch" as const,
               isTrending: true,
               score: Math.round(movie.popularity || 85),
             }));
@@ -66,9 +78,10 @@ export async function GET(request: Request) {
       total: items.length,
       isLive: false,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "Failed to fetch recommendations";
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to fetch recommendations" },
+      { success: false, error: errorMsg },
       { status: 500 }
     );
   }

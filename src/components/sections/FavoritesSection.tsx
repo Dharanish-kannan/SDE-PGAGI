@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Heart, Trash2, BookmarkCheck, Search, Filter } from "lucide-react";
+import { Heart, Trash2, BookmarkCheck, Search } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { clearAllFavorites } from "@/redux/slices/favoritesSlice";
 import { setActiveSection } from "@/redux/slices/contentSlice";

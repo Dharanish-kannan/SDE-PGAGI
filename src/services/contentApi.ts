@@ -24,16 +24,16 @@ export async function fetchUnifiedFeed({
     if (newsApiKey) headers["x-newsapi-key"] = newsApiKey;
     if (tmdbApiKey) headers["x-tmdb-key"] = tmdbApiKey;
 
-    const promises: Promise<Response>[] = [];
+    const promises: Promise<Response | null>[] = [];
 
     if (types.includes("news")) {
-      promises.push(fetch(`/api/news?page=${page}`, { headers }).catch(() => null as any));
+      promises.push(fetch(`/api/news?page=${page}`, { headers }).catch(() => null));
     }
     if (types.includes("recommendation")) {
-      promises.push(fetch(`/api/recommendations?page=${page}`, { headers }).catch(() => null as any));
+      promises.push(fetch(`/api/recommendations?page=${page}`, { headers }).catch(() => null));
     }
     if (types.includes("social")) {
-      promises.push(fetch(`/api/social?page=${page}`, { headers }).catch(() => null as any));
+      promises.push(fetch(`/api/social?page=${page}`, { headers }).catch(() => null));
     }
 
     const responses = await Promise.all(promises);

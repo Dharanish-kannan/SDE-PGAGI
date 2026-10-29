@@ -10,7 +10,6 @@ export default function RealtimeTicker() {
   const dispatch = useAppDispatch();
   const liveQueue = useAppSelector((state) => state.content.liveQueue);
   const showToast = useAppSelector((state) => state.content.showLiveToast);
-  const autoRefresh = useAppSelector((state) => state.preferences.autoRefresh);
   const { t } = useTranslation();
 
   if (!showToast || liveQueue.length === 0) {

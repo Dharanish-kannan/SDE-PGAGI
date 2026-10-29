@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, ExternalLink, Heart, Share2, Eye, Calendar, Sparkles, MessageSquare, ThumbsUp, Radio } from "lucide-react";
+import { X, ExternalLink, Heart, Share2, Calendar, Sparkles, MessageSquare, ThumbsUp } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setSelectedItemForDetail } from "@/redux/slices/contentSlice";
 import { toggleFavorite } from "@/redux/slices/favoritesSlice";

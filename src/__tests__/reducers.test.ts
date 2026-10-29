@@ -4,7 +4,6 @@ import preferencesReducer, {
   setTheme,
   setViewMode,
   updateApiKeys,
-  resetPreferences,
 } from "@/redux/slices/preferencesSlice";
 import favoritesReducer, {
   toggleFavorite,

@@ -2,6 +2,17 @@ import { NextResponse } from "next/server";
 import { INITIAL_CONTENT_ITEMS, PAGINATED_ADDITIONAL_ITEMS } from "@/services/mockData";
 import { ContentCategory } from "@/types/content";
 
+interface NewsApiArticle {
+  title?: string;
+  description?: string;
+  content?: string;
+  source?: { name?: string };
+  url?: string;
+  author?: string;
+  urlToImage?: string;
+  publishedAt?: string;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -18,9 +29,9 @@ export async function GET(request: Request) {
         if (res.ok) {
           const data = await res.json();
           if (data.articles && data.articles.length > 0) {
-            const liveItems = data.articles.map((art: any, idx: number) => ({
+            const liveItems = data.articles.map((art: NewsApiArticle, idx: number) => ({
               id: `live-news-${idx}-${Date.now()}`,
-              type: "news",
+              type: "news" as const,
               category: (category && category !== "all" ? category : "technology") as ContentCategory,
               title: art.title || "Untitled",
               description: art.description || art.content || "No description provided.",
@@ -36,7 +47,7 @@ export async function GET(request: Request) {
               comments: Math.floor(Math.random() * 50) + 5,
               tags: [category || "News", "Breaking"],
               ctaText: "Read Story",
-              ctaAction: "read",
+              ctaAction: "read" as const,
               score: 85,
             }));
             return NextResponse.json({ success: true, items: liveItems, page, isLive: true });
@@ -63,9 +74,10 @@ export async function GET(request: Request) {
       total: items.length,
       isLive: false,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "Failed to fetch news";
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to fetch news" },
+      { success: false, error: errorMsg },
       { status: 500 }
     );
   }

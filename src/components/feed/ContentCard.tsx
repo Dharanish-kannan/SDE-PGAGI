@@ -4,13 +4,11 @@ import React from "react";
 import {
   Heart,
   Share2,
-  ExternalLink,
   GripVertical,
   Play,
   Film,
   Newspaper,
   MessageCircle,
-  ThumbsUp,
   Sparkles,
   Clock,
 } from "lucide-react";

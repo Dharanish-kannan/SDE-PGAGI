@@ -9,7 +9,6 @@ import {
   BarChart3,
   Sliders,
   Radio,
-  ExternalLink,
   X,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -31,7 +30,6 @@ export default function Sidebar({
   const activeSection = useAppSelector((state) => state.content.activeSection);
   const favoritesCount = useAppSelector((state) => state.favorites.items.length);
   const trendingCount = useAppSelector((state) => state.content.trendingItems.length);
-  const autoRefresh = useAppSelector((state) => state.preferences.autoRefresh);
   const { t } = useTranslation();
 
   const navItems = [

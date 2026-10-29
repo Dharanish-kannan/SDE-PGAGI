@@ -39,8 +39,9 @@ export const fetchFeedAsync = createAsyncThunk(
     try {
       const response = await fetchUnifiedFeed(params);
       return response;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Failed to fetch content feed");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to fetch content feed";
+      return rejectWithValue(msg);
     }
   }
 );
@@ -51,8 +52,9 @@ export const loadMoreFeedAsync = createAsyncThunk(
     try {
       const response = await fetchUnifiedFeed(params);
       return response;
-    } catch (err: any) {
-      return rejectWithValue(err.message || "Failed to load more items");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to load more items";
+      return rejectWithValue(msg);
     }
   }
 );

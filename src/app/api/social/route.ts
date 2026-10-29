@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { INITIAL_CONTENT_ITEMS, PAGINATED_ADDITIONAL_ITEMS } from "@/services/mockData";
-import { ContentCategory } from "@/types/content";
 
 export async function GET(request: Request) {
   try {
@@ -31,9 +30,10 @@ export async function GET(request: Request) {
       total: items.length,
       isLive: false,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "Failed to fetch social posts";
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to fetch social posts" },
+      { success: false, error: errorMsg },
       { status: 500 }
     );
   }
